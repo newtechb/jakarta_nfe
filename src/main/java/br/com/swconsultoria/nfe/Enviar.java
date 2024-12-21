@@ -29,6 +29,8 @@ import javax.xml.stream.XMLStreamException;
 import java.io.StringReader;
 import java.rmi.RemoteException;
 import java.util.Iterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Classe Responsavel por Enviar o XML.
@@ -37,6 +39,8 @@ import java.util.Iterator;
  */
 @Log
 class Enviar {
+    
+    private static final Logger log = LoggerFactory.getLogger(Enviar.class);
 
     private Enviar() {
     }

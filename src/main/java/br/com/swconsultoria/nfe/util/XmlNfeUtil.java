@@ -36,6 +36,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.zip.GZIPInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Classe Responsavel por Metodos referentes ao XML
@@ -44,6 +46,8 @@ import java.util.zip.GZIPInputStream;
  */
 @Log
 public class XmlNfeUtil {
+    
+    private static final Logger log = LoggerFactory.getLogger(XmlNfeUtil.class);
 
     private static final String STATUS = "TConsStatServ";
     private static final String SITUACAO_NFE = "TConsSitNFe";
@@ -477,7 +481,7 @@ public class XmlNfeUtil {
             return xmlCalendar.toString();
 
         } catch (DatatypeConfigurationException e) {
-            log.warning(e.getMessage());
+            log.warn(e.getMessage());
         }
         return null;
     }

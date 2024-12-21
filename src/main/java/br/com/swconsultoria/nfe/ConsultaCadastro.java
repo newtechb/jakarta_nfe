@@ -20,6 +20,8 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Classe responsavel por Consultar a Situaçao do XML na SEFAZ.
@@ -29,6 +31,8 @@ import java.rmi.RemoteException;
 @Log
 class ConsultaCadastro {
 
+    private static final Logger log = LoggerFactory.getLogger(ConsultaCadastro.class);
+    
     private ConsultaCadastro() {}
 
     /**

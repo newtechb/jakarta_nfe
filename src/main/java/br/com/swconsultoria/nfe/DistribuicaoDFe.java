@@ -19,6 +19,8 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Samuel Oliveira - samuel@swconsultoria.com.br - www.swconsultoria.com.br
@@ -26,6 +28,8 @@ import java.rmi.RemoteException;
 @Log
 class DistribuicaoDFe {
 
+    private static final Logger log = LoggerFactory.getLogger(DistribuicaoDFe.class);
+    
     private DistribuicaoDFe() {
     }
 

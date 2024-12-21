@@ -21,6 +21,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Classe responsável por fazer a Verificação do Status Do Webservice
  *
@@ -29,20 +32,22 @@ import java.rmi.RemoteException;
 @Log
 class Status {
 
+    private static final Logger log = LoggerFactory.getLogger(Status.class);
+
     /**
      * Metodo para Consulta de Status de Serviço
      * <p>
-     * Cria um objeto do tipo TConsStatServ usando as propriedades passadas
-     * pelo argumento <b>config</b>. Após, este objeto é convertido em um obejto
+     * Cria um objeto do tipo TConsStatServ usando as propriedades passadas pelo
+     * argumento <b>config</b>. Após, este objeto é convertido em um obejto
      * OMElement manipulável onde é passado para o atributo extraElement da
      * classe NFeStatusServico4Stub.NfeDadosMsg.
      * </p>
      *
      * <p>
      * O método statusServico então cria uma instância de NFeStatusServico4Stub
-     * passando o argumento <b>tipo</b> e <b>config</b> em seu construtor, onde será montada a URL
-     * de consulta do status do serviço dependendo das configuções
-     * (ambiente, Estado, NF-e ou NFC-e)
+     * passando o argumento <b>tipo</b> e <b>config</b> em seu construtor, onde
+     * será montada a URL de consulta do status do serviço dependendo das
+     * configuções (ambiente, Estado, NF-e ou NFC-e)
      * </p>
      *
      * <p>
@@ -51,9 +56,11 @@ class Status {
      * método.
      * </p>
      *
-     * @param config        ConfiguracoesNfe, interface de configuração da NF-e ou NFC-e.
+     * @param config ConfiguracoesNfe, interface de configuração da NF-e ou
+     * NFC-e.
      * @param tipoDocumento ConstantesUtil.NFE ou ConstantesUtil.NFCE
-     * @return TRetConsStatServ - objeto que contém o resultado da transmissão do XML.
+     * @return TRetConsStatServ - objeto que contém o resultado da transmissão
+     * do XML.
      * @throws NfeException
      * @see ConfiguracoesNfe
      * @see ConstantesUtil
@@ -78,12 +85,12 @@ class Status {
             String url = WebServiceUtil.getUrl(config, tipoDocumento, ServicosEnum.STATUS_SERVICO);
 
             if (EstadosEnum.MS.equals(config.getEstado())) {
-                br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub.NfeDadosMsg dadosMsg =
-                        new br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub.NfeDadosMsg();
+                br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub.NfeDadosMsg dadosMsg
+                        = new br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub.NfeDadosMsg();
                 dadosMsg.setExtraElement(ome);
 
-                br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub stub =
-                        new br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub(url);
+                br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub stub
+                        = new br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub(url);
                 StubUtil.configuraHttpClient(stub, config, url);
 
                 br.com.swconsultoria.nfe.wsdl.NFeStatusServico4MS.NFeStatusServico4Stub.NfeResultMsg result = stub.nfeStatusServicoNF(dadosMsg);
@@ -104,7 +111,7 @@ class Status {
             }
 
         } catch (RemoteException | XMLStreamException | JAXBException | CertificadoException e) {
-            throw new NfeException(e.getMessage(),e);
+            throw new NfeException(e.getMessage(), e);
         }
     }
 

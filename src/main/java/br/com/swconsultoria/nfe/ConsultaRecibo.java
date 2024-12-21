@@ -17,6 +17,8 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Classe Responsavel Por pegar o Retorno da NFE, apos o Envio.
@@ -25,6 +27,8 @@ import java.rmi.RemoteException;
  */
 @Log
 class ConsultaRecibo {
+    
+    private static final Logger log = LoggerFactory.getLogger(ConsultaRecibo.class);
 
     private ConsultaRecibo() {
     }

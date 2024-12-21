@@ -16,6 +16,8 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.ZoneId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Samuel Oliveira
@@ -33,6 +35,8 @@ import java.time.ZoneId;
 @Log
 public class ConfiguracoesNfe {
 
+    private static final Logger log = LoggerFactory.getLogger(ConfiguracoesNfe.class);
+    
     private EstadosEnum estado;
     private AmbienteEnum ambiente;
     private Certificado certificado;

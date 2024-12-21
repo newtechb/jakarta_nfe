@@ -13,7 +13,7 @@ import lombok.extern.java.Log;
 import org.ini4j.Wini;
 
 import java.io.*;
-import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Samuel Oliveira
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 @Log
 public class WebServiceUtil {
 
-    private final static Logger logger = Logger.getLogger(WebServiceUtil.class.getName());
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(WebServiceUtil.class);
 
     /**
      * Retorna a URL para consulta de operações do SEFAZ.<br>

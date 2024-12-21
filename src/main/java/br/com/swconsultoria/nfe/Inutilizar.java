@@ -22,6 +22,8 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Classe Responsavel por inutilizar uma Faixa de numeracao da Nfe.
@@ -30,6 +32,8 @@ import java.rmi.RemoteException;
  */
 @Log
 class Inutilizar {
+    
+    private static final Logger log = LoggerFactory.getLogger(Inutilizar.class);
 
     private Inutilizar() {
     }

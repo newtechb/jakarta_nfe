@@ -18,9 +18,13 @@ import org.apache.axis2.transport.http.HTTPConstants;
 
 import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Log
 class Eventos {
+    
+    private static final Logger log = LoggerFactory.getLogger(Eventos.class);
 
     private Eventos() {
     }

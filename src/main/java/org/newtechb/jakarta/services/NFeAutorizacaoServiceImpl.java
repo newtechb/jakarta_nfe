@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.newtechb.jakarta.services;
 
 import jakarta.jws.WebService;
@@ -14,21 +10,34 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 
 /**
- *
  * Implementação do serviço web para autorização de NFe. Esta classe implementa
  * a interface NFeAutorizacaoService e define os métodos para tratar requisições
  * de autorização de lotes de NF-e e lotes compactados de NF-e.
+ * <p>
+ * A classe utiliza Jakarta XML Web Services (JAX-WS) para expor os métodos como
+ * operações SOAP.
+ * </p>
+ * <p>
+ * O autor desta classe é bajinho.
+ * </p>
  *
- * @author bajinho
+ * @see NfeDadosMsg
+ * @see NfeDadosMsgZip
+ * @see NfeResultMsg
  */
-@WebService(endpointInterface = "br.com.swconsultoria.nfe.wsdl.NFeAutorizacaoService")
+@WebService(endpointInterface = "org.newtechb.jakarta.services.NFeAutorizacaoService")
 public class NFeAutorizacaoServiceImpl implements NFeAutorizacaoService {
 
     /**
      * Método que processa a autorização de um lote de NF-e.
+     * <p>
+     * Esta operação SOAP recebe os dados de um lote de NF-e, processa a
+     * autorização e retorna o resultado.
+     * </p>
      *
      * @param nfeDadosMsg O objeto que contém os dados do lote de NF-e.
-     * @return NfeResultMsg O resultado do processamento do lote de NF-e.
+     * @return {@link NfeResultMsg} O resultado do processamento do lote de
+     * NF-e.
      * @throws Exception Se ocorrer um erro durante o processamento.
      */
     @Override
@@ -42,11 +51,15 @@ public class NFeAutorizacaoServiceImpl implements NFeAutorizacaoService {
 
     /**
      * Método que processa a autorização de um lote compactado de NF-e.
+     * <p>
+     * Esta operação SOAP recebe os dados de um lote compactado de NF-e,
+     * processa a autorização e retorna o resultado.
+     * </p>
      *
      * @param nfeDadosMsgZip O objeto que contém os dados do lote compactado de
      * NF-e.
-     * @return NfeResultMsg O resultado do processamento do lote compactado de
-     * NF-e.
+     * @return {@link NfeResultMsg} O resultado do processamento do lote
+     * compactado de NF-e.
      * @throws Exception Se ocorrer um erro durante o processamento.
      */
     @Override

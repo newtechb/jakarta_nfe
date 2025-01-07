@@ -1,5 +1,9 @@
 package org.newtechb.jakarta.hello;
 
+/**
+ *
+ * @author bajinho
+ */
 public class Hello {
 
 	private String name;

@@ -20,6 +20,11 @@ Steps
 
     mvn clean install
 
+**Gerar documentação:**
+
+    mvn javadoc:javadoc
+
+
 **Explicação dos Passos**
 
     Gerar o Maven Wrapper:
@@ -31,5 +36,5 @@ Steps
     Limpar e instalar o projeto localmente:
         O comando mvn clean install executa uma limpeza e instala o artefato do projeto no repositório local do Maven, permitindo que outros projetos locais dependam desse artefato.
 
-
+      
 

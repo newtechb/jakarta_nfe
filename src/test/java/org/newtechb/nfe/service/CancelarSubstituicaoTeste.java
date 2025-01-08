@@ -11,61 +11,82 @@ import br.com.swconsultoria.nfe.schema.envEventoCancSubst.TEnvEvento;
 import br.com.swconsultoria.nfe.schema.envEventoCancSubst.TRetEnvEvento;
 import br.com.swconsultoria.nfe.util.CancelamentoSubstituicaoUtil;
 import br.com.swconsultoria.nfe.util.RetornoUtil;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.time.LocalDateTime;
+
+import java.time.LocalDateTime;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.doAnswer;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  *
  * @author bajinho
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ExtendWith(MockitoExtension.class)
 public class CancelarSubstituicaoTeste {
 
-    public static void main(String[] args) {
-        try {
-            // Inicia As Configurações - ver https://github.com/Samuel-Oliveira/Java_NFe/wiki/1-:-Configuracoes
-            ConfiguracoesNfe config = Config.iniciaConfiguracoes();
+    @Mock
+    private ConfiguracoesNfe config;
 
-            //Agora o evento pode aceitar uma lista de cancelaemntos para envio em Lote.
-            //Para isso Foi criado o Objeto Cancela
-            Evento cancela = new Evento();
-            //Informe a chave da Nota a ser Cancelada
-            cancela.setChave("XXX");
-            //Informe a chave da Nota a Substituta
-            cancela.setChaveSusbstituta("XXX");
-            //Informe o protocolo da Nota a ser Cancelada
-            cancela.setProtocolo("XXX");
-            //Informe o CNPJ do emitente
-            cancela.setCnpj("XXX");
-            //Informe o Motivo do Cancelamento
-            cancela.setMotivo("Teste de Cancelamento");
-            //Informe a data do Cancelamento
-            cancela.setDataEvento(LocalDateTime.now());
+    @Mock
+    private CancelamentoSubstituicaoUtil cancelamentoSubstituicaoUtil;
 
-            //Monta o Evento de Cancelamento
-            TEnvEvento enviEvento = CancelamentoSubstituicaoUtil.montaCancelamento(cancela, config);
+    @Mock
+    private Nfe nfe;
 
-            //Envia o Evento de Cancelamento
-            TRetEnvEvento retorno = Nfe.cancelarSubstituicaoNfe(config, enviEvento, true);
+    @Mock
+    private RetornoUtil retornoUtil;
 
-            //Valida o Retorno do Cancelamento
-            RetornoUtil.validaCancelamentoSubstituicao(retorno);
+    @InjectMocks
+    private CancelarSubstituicaoTeste cancelarSubstituicaoTeste;
 
-            //Resultado
-            System.out.println();
-            retorno.getRetEvento().forEach( resultado -> {
-                System.out.println("# Chave: " + resultado.getInfEvento().getChNFe());
-                System.out.println("# Status: " + resultado.getInfEvento().getCStat() + " - " + resultado.getInfEvento().getXMotivo());
-                System.out.println("# Protocolo: " + resultado.getInfEvento().getNProt());
-            });
+    @BeforeEach
+    public void setUp() {
+        config = Mockito.mock(ConfiguracoesNfe.class);
+        cancelamentoSubstituicaoUtil = Mockito.mock(CancelamentoSubstituicaoUtil.class);
+        nfe = Mockito.mock(Nfe.class);
+        retornoUtil = Mockito.mock(RetornoUtil.class);
+    }
 
-            //Cria ProcEvento de Cacnelamento
-            String proc = CancelamentoSubstituicaoUtil.criaProcEventoCancelamento(config, enviEvento, retorno.getRetEvento().get(0));
-            System.out.println();
-            System.out.println("# ProcEvento : " + proc);
+    @Test
+    void testeCancelarSubstituicao() throws Exception {
+        // Cria um evento de cancelamento mockado
+        Evento cancela = new Evento();
+        cancela.setChave("XXX");
+        cancela.setChaveSusbstituta("XXX");
+        cancela.setProtocolo("XXX");
+        cancela.setCnpj("XXX");
+        cancela.setMotivo("Teste de Cancelamento");
+        cancela.setDataEvento(LocalDateTime.now());
 
-        } catch (Exception e) {
-            System.err.println();
-            System.err.println("# Erro: "+e.getMessage());
-        }
+        // Mocka a resposta do método montaCancelamento
+        TEnvEvento enviEvento = new TEnvEvento();
+        doAnswer((Answer<TEnvEvento>) invocation -> enviEvento)
+                .when(cancelamentoSubstituicaoUtil).montaCancelamento(any(Evento.class), Mockito.any(ConfiguracoesNfe.class));
+
+        // Mocka a resposta do método cancelarSubstituicaoNfe
+        TRetEnvEvento retorno = new TRetEnvEvento();
+        doAnswer((Answer<TRetEnvEvento>) invocation -> retorno)
+                .when(nfe).cancelarSubstituicaoNfe(any(ConfiguracoesNfe.class), any(TEnvEvento.class), any(Boolean.class));
+
+        // Chama o método que está sendo testado
+        cancelarSubstituicaoTeste.cancelarSubstituicao(config);
+
+        // Verifica se os métodos foram chamados corretamente
+        // (Adicione suas próprias verificações aqui conforme necessário)
     }
 }

@@ -159,6 +159,249 @@ O processamento da solicitação pelo Web Service da SEFAZ e a geração da mens
 
 **A mensagem de resposta é enviada de volta ao aplicativo do contribuinte, finalizando o processo de comunicação.** O aplicativo do contribuinte é responsável por processar a mensagem de resposta e tomar as ações necessárias, como armazenar o protocolo de autorização, exibir a mensagem de erro ao usuário, etc.
 
+As siglas **GR**, **FR**, **ER**, **DR**, **CR** e **PR**  são utilizadas no Manual de Orientação ao Contribuinte (MOC) para identificar os campos de retorno das diversas operações da NF-e (Nota Fiscal Eletrônica). Cada sigla corresponde a um grupo específico de campos e representa a primeira parte do nome do campo no arquivo XML de resposta da SEFAZ. 
+
+A seguir, a descrição de cada sigla:
+
+* **GR:** Refere-se aos campos de retorno da operação de **consulta de cadastro** de contribuinte. Por exemplo, o campo **GR01 retConsCad** representa a *tag* raiz da resposta da consulta de cadastro.
+* **FR:** Refere-se aos campos de retorno da operação de **consulta de status do serviço** de autorização da NF-e. Por exemplo, o campo **FR01 retConsStatServ** representa a *tag* raiz da resposta da consulta de status do serviço.
+* **ER:** Refere-se aos campos de retorno da operação de **consulta de status da NF-e**. Por exemplo, o campo **ER01 retConsSitNFe** representa a *tag* raiz da resposta da consulta de situação da NF-e.
+* **DR:** Refere-se aos campos de retorno da operação de **inutilização de numeração de NF-e**. Por exemplo, o campo **DR01 retInutNFe** representa a *tag* raiz da resposta do pedido de inutilização.
+* **CR:** Refere-se aos campos de retorno da operação de **cancelamento de NF-e**. Por exemplo, o campo **CR01 retCancNFe** representa a *tag* raiz da resposta do pedido de cancelamento da NF-e.
+* **PR:** Refere-se aos campos que compõem o **protocolo de processamento da NF-e**. Este grupo de campos está presente na resposta da consulta de processamento do lote de NF-e (retConsReciNFe) e fornece informações sobre o processamento individual de cada NF-e do lote. Por exemplo, o campo **PR01 protNFe** representa a *tag* raiz do protocolo de recebimento da NF-e.
+
+Essas siglas facilitam a identificação dos campos e a interpretação da resposta da SEFAZ. Ao consultar a documentação do MOC, você poderá encontrar a descrição completa de cada campo e o seu significado. 
+
+Em caso de processamento com sucesso da autorização da NF-e, a SEFAZ retornará um **Protocolo de Autorização de Uso**, que é um arquivo XML contendo informações importantes sobre a autorização.  O leiaute do Protocolo de Autorização de Uso é definido no Manual de Orientação ao Contribuinte - MOC e é composto pelas seguintes informações:
+
+```xml
+<protNFe versao="4.00">
+  <infProt Id="ID39180308307757000165550010000000011234567890">
+    <tpAmb>1</tpAmb>
+    <verAplic>SVRS202108161010</verAplic>
+    <chNFe>39180308307757000165550010000000011234567890</chNFe>
+    <dhRecbto>2023-04-20T10:12:15-03:00</dhRecbto>
+    <nProt>39180308307757000165550010000000011234567890</nProt>
+    <digVal>eZzqWZ+kY8g6InZxMhM8sL8BoA=</digVal>
+    <cStat>100</cStat>
+    <xMotivo>Autorizado o uso da NF-e</xMotivo>
+  </infProt>
+</protNFe>
+```
+
+**Explicação dos campos:**
+
+*   **protNFe:** *Tag* raiz do Protocolo de autorização.
+    *   **versao:** Versão do leiaute do protocolo (4.00 neste exemplo).
+*   **infProt:** Informações do protocolo de resposta.
+    *   **Id:** Identificador da *Tag* a ser assinada. Contém o literal "ID" seguido do número do protocolo.
+    *   **tpAmb:** Identificação do Ambiente.
+        *   **1:** Produção.
+    *   **verAplic:** Versão do aplicativo da SEFAZ que processou a NF-e.
+    *   **chNFe:** Chave de acesso da NF-e.
+    *   **dhRecbto:** Data e hora de recebimento da NF-e pela SEFAZ.
+    *   **nProt:** Número do Protocolo de Autorização da NF-e.
+    *   **digVal:** *Digest Value* da NF-e processada.
+    *   **cStat:** Código do status da resposta.
+        *   **100:** Autorizado o uso da NF-e.
+    *   **xMotivo:** Descrição literal do status da resposta.
+
+**Observações:**
+
+*   A estrutura do XML de retorno pode variar de acordo com a versão do leiaute utilizada pela SEFAZ.
+*   A mensagem de retorno é assinada digitalmente pela SEFAZ, garantindo a autenticidade e integridade das informações.
+
+* **PR01 protNFe:** TAG raiz do Protocolo de recebimento da NFe.
+* **PR02 versao:** Versão do leiaute das informações de Protocolo.
+* **PR03 infProt:** Informações do Protocolo de resposta. TAG a ser assinada.
+* **PR04 Id:** Identificador da TAG a ser assinada, somente precisa ser informado se a UF assinar a resposta. Em caso de assinatura da resposta pela SEFAZ, preencher o campo com o Número do Protocolo, precedido com o literal “ID”.
+* **PR05 tpAmb:** Identificação do Ambiente: 1=Produção/2=Homologação.
+* **PR06 verAplic:** Versão do Aplicativo que processou o Lote. A versão deve ser iniciada com a sigla da UF nos casos de WS próprio ou a sigla SVAN ou SVRS nos demais casos.
+* **PR07 chNFe:** Chave de Acesso da NF-e.
+* **PR08 dhRecbto:** Preenchido com a data e hora do processamento (informado também no caso de rejeição). Formato: “AAAA-MM-DDThh:mm:ssTZD” (UTC – Universal Coordinated Time).
+* **PR09 nProt:** Número do Protocolo da NF-e. O número do protocolo é gerado pela SEFAZ para identificar a transação de autorização de uso da NF-e.
+* **PR10 digVal:** Digest Value da NF-e processada.
+* **PR11 cStat:** Código do status da resposta. 100 - Uso autorizado. **Este código indica que a NF-e foi autorizada com sucesso.**
+* **PR12 xMotivo:** Descrição literal do status da resposta para a NF-e.
+
+**O Protocolo de Autorização de Uso é um documento importante, pois comprova que a NF-e foi autorizada pela SEFAZ e garante a validade jurídica da operação.** Este protocolo deve ser armazenado pelo emitente da NF-e, juntamente com o arquivo XML da NF-e, para fins de comprovação e auditoria.
+
+Vale ressaltar que a estrutura do Protocolo de Autorização de Uso pode variar slightly entre as diferentes versões do Manual de Orientação ao Contribuinte - MOC.
+
+Em caso de processamento com sucesso do cancelamento da NF-e, a SEFAZ retornará um **Protocolo de Cancelamento**, que é um arquivo XML contendo informações importantes sobre o cancelamento. O leiaute do Protocolo de Cancelamento é definido no Manual de Orientação ao Contribuinte - MOC e é composto pelas seguintes informações:
+
+```xml
+<retCancNFe versao="2.00" xmlns="http://www.portal.fazenda.gov.br/nfe">
+    <infCanc Id="ID12345678901234567890123456789012345678901234">
+        <tpAmb>1</tpAmb>
+        <verAplic>SVRS202108161010</verAplic>
+        <cStat>101</cStat>
+        <xMotivo>Cancelamento de NF-e homologado</xMotivo>
+        <cUF>35</cUF>
+        <chNFe>12345678901234567890123456789012345678901234</chNFe>
+        <dhRecbto>2023-04-20T11:00:00-03:00</dhRecbto>
+        <nProt>1234567890123456</nProt>
+    </infCanc>
+</retCancNFe>
+```
+
+**Explicação dos Campos:**
+
+* **retCancNFe:** *Tag* raiz da mensagem de retorno do cancelamento da NF-e.
+    * **versao:** Versão do leiaute da mensagem de retorno (2.00 neste exemplo).
+* **infCanc:**  Dados da resposta do cancelamento.
+    * **Id:** Identificador da *tag* a ser assinada, contendo o literal "ID" seguido do número do protocolo.
+    * **tpAmb:** Identificação do ambiente.
+        * **1:** Produção.
+    * **verAplic:** Versão do aplicativo da SEFAZ que processou o cancelamento.
+    * **cStat:** Código do status da resposta.
+        * **101:** Cancelamento de NF-e homologado.
+    * **xMotivo:** Descrição literal do status da resposta.
+    * **cUF:** Código da UF que atendeu a solicitação de cancelamento.
+    * **chNFe:** Chave de acesso da NF-e cancelada.
+    * **dhRecbto:** Data e hora de processamento do cancelamento.
+    * **nProt:** Número do Protocolo de Cancelamento.
+
+**Observações:**
+
+* A estrutura do XML de retorno pode variar de acordo com a versão do leiaute utilizada pela SEFAZ.
+* A mensagem de retorno é assinada digitalmente pela SEFAZ, garantindo a autenticidade e integridade das informações.
+* É importante consultar a documentação oficial do Manual de Orientação ao Contribuinte (MOC) para obter a descrição completa dos campos e as regras de validação aplicáveis à versão do leiaute em uso. 
+
+* **CR01 retCancNFe:** TAG raiz da Resposta do Pedido de Cancelamento.
+* **CR02 versao:** Versão do leiaute.
+* **CR03 infCanc:** Informações do Protocolo de Cancelamento. TAG a ser assinada.
+* **CR04 Id:** Identificador da TAG a ser assinada, somente precisa ser informado se a UF assinar a resposta. Em caso de assinatura da resposta pela SEFAZ, preencher o campo com o Número do Protocolo, precedido com o literal "ID".
+* **CR05 tpAmb:** Identificação do Ambiente: 1 - Produção / 2 - Homologação.
+* **CR06 verAplic:** Versão do Aplicativo que recebeu o Lote.
+* **CR07 cStat:** Código do status da resposta. **101 - Cancelamento de NF-e homologado.** Este código indica que a NF-e foi cancelada com sucesso.
+* **CR08 xMotivo:** Descrição literal do status da resposta.
+* **CR08a cUF:** Código da UF que atendeu a solicitação.
+* **CR09 chNFe:** Chave de Acesso da NF-e.
+* **CR10 dhRecbto:** Data e hora de processamento. Formato = AAAA-MM-DDTHH:MM:SS. Preenchido com data e hora da homologação do Pedido.
+* **CR11 nProt:** Número do Protocolo de Cancelamento. O controle de numeração de Protocolo será único para todos os serviços.
+* **CR12 Signature:** Assinatura XML do grupo identificado pelo atributo "Id". A decisão de assinar a mensagem fica a critério da UF interessada.
+
+**O Protocolo de Cancelamento é um documento importante, pois comprova que a NF-e foi cancelada junto à SEFAZ.** Este protocolo deve ser armazenado pelo emitente da NF-e, juntamente com o arquivo XML da NF-e e o Protocolo de Autorização de Uso, para fins de comprovação e auditoria.
+
+Em caso de processamento com sucesso da inutilização de uma faixa de numeração de NF-e, a SEFAZ retornará um **Protocolo de Inutilização**, que é um arquivo XML contendo informações importantes sobre a inutilização. O leiaute do Protocolo de Inutilização é definido no Manual de Orientação ao Contribuinte - MOC e é composto pelas seguintes informações:
+
+* **DR01 retInutNFe:** TAG raiz da Resposta do Pedido de Inutilização.
+* **DR02 versao:** Versão do leiaute.
+* **DR03 infInut:** Dados da resposta - TAG a ser assinada.
+* **DR04 Id:** Identificador da TAG a ser assinada, somente precisa ser informado se a UF assinar a resposta. Em caso de assinatura da resposta pela SEFAZ preencher o campo com o Número do Protocolo, precedido com o literal "ID". 
+* **DR05 tpAmb:** Identificação do Ambiente: 1 - Produção / 2 - Homologação.
+* **DR06 verAplic:** Versão do Aplicativo que processou o pedido de inutilização.
+* **DR07 cStat:** Código do status da resposta. **102 - Inutilização de número homologado**. Este código indica que a faixa de numeração foi inutilizada com sucesso.
+* **DR08 xMotivo:** Descrição literal do status da resposta.
+* **DR09 cUF:** Código da UF que atendeu a solicitação.
+* **DR10 ano:** Ano de inutilização da numeração.
+* **DR11 CNPJ:** CNPJ do emitente da NF-e.
+* **DR12 mod:** Modelo da NF-e.
+* **DR13 serie:** Série da NF-e.
+* **DR14 nNFIni:** Número da primeira NF-e da faixa a ser inutilizada.
+* **DR15 nNFFin:** Número da última NF-e da faixa a ser inutilizada.
+* **DR16 dhRecbto:** Data e hora de processamento da inutilização. Formato = AAAA-MM-DDTHH:MM:SS.
+* **DR17 nProt:** Número do Protocolo de Inutilização. O controle de numeração de Protocolo será único para todos os serviços.
+* **DR18 Signature:** Assinatura XML do grupo identificado pelo atributo "Id". A decisão de assinar a mensagem fica a critério da UF interessada.
+
+**O Protocolo de Inutilização é um documento importante, pois comprova que a faixa de numeração de NF-e foi inutilizada junto à SEFAZ.** Este protocolo deve ser armazenado pelo emitente da NF-e para fins de comprovação e auditoria.
+
+Em caso de processamento com sucesso da consulta de status da NF-e, a SEFAZ retornará um arquivo XML contendo informações sobre a situação atual da NF-e na base de dados. O leiaute da resposta da consulta de status é definido no Manual de Orientação ao Contribuinte - MOC e varia de acordo com a versão. 
+
+A estrutura da resposta pode conter os seguintes elementos, entre outros:
+
+* **ER01 retConsSitNFe:** TAG raiz da Resposta da Consulta de Situação da NF-e.
+* **ER02 versao:** Versão do leiaute.
+* **ER03 tpAmb:** Identificação do Ambiente: 1 – Produção / 2 – Homologação.
+* **ER04 verAplic:** Versão do Aplicativo que processou a consulta.
+* **ER05 cStat:** Código do status da resposta.
+    * **100 - Uso autorizado:** A NF-e foi autorizada e está válida.
+    * **101 - Cancelamento de NF-e homologado:** A NF-e foi cancelada com sucesso.
+    * **110 - Uso Denegado:** A autorização de uso da NF-e foi denegada pela SEFAZ.
+    * **124 - EPEC Autorizado:** Existe apenas um Evento Prévio de Emissão em Contingência (EPEC) autorizado para a chave de acesso.
+* **ER06 xMotivo:** Descrição literal do status da resposta.
+* **ER07 cUF:** Código da UF que atendeu a solicitação.
+* **ER08 protNFe:** Protocolo de autorização ou denegação de uso do NF-e. 
+* **ER09 retCancNFe:** Protocolo de homologação de cancelamento de NF-e. 
+* **ER10 procEventoNFe:** Informação do evento e respectivo Protocolo de registro de Evento.
+
+O elemento **procEventoNFe** será retornado apenas se houver eventos vinculados à NF-e, como cancelamento, carta de correção ou EPEC. No caso de haver apenas o EPEC autorizado, a resposta conterá o código de status **124** e o elemento **procEventoNFe** com as informações do EPEC.
+
+É importante observar que a resposta da consulta de status pode variar de acordo com a situação da NF-e e a versão do MOC. Consulte a documentação oficial para obter informações mais detalhadas sobre a estrutura da resposta.
+
+Em caso de processamento com sucesso da consulta de status do serviço, a SEFAZ retornará um arquivo XML contendo informações sobre a situação atual do serviço de autorização de NF-e. O leiaute da resposta da consulta de status do serviço é definido no Manual de Orientação ao Contribuinte - MOC e é composto pelas seguintes informações:
+
+* **FR01 retConsStatServ:** TAG raiz da Resposta da Consulta de Status do Serviço.
+* **FR02 versao:** Versão do leiaute.
+* **FR03 tpAmb:** Identificação do Ambiente: 1=Produção/2=Homologação.
+* **FR04 verAplic:** Versão do Aplicativo que processou a consulta. A versão deve ser iniciada com a sigla da UF nos casos de WS próprio ou a sigla SVAN ou SVRS nos demais casos.
+* **FR05 cStat:** Código do status da resposta (conforme item 4.4.1 do documento MOC – Anexo I – Leiaute NF-e/NFC-e). 
+   * **107 - Serviço em Operação:** O serviço de autorização de NF-e está em operação normal.
+   * **108 - Serviço Paralisado Momentaneamente (curto prazo):** O serviço de autorização de NF-e está paralisado momentaneamente, com previsão de retorno em curto prazo.
+   * **109 - Serviço Paralisado sem Previsão:** O serviço de autorização de NF-e está paralisado sem previsão de retorno.
+* **FR06 xMotivo:** Descrição literal do status da resposta.
+* **FR07 cUF:** Código da UF que atendeu a solicitação.
+* **FR08 dhRecbto:** Data e hora do processamento. Formato: “AAAA-MM-DDThh:mm:ssTZD” (UTC – Universal Coordinated Time).
+* **FR09 tMed:** Tempo médio de resposta do serviço (em segundos) dos últimos 5 minutos. 
+* **FR10 dhRetorno:** Data e hora previstas para o retorno do Web Service, no formato AAA-MM-DDTHH:MM:SS.
+* **FR11 xObs:** Informações adicionais para o Contribuinte.
+
+A critério da UF, o campo **xObs** pode ser utilizado para fornecer maiores informações ao contribuinte, como por exemplo: “manutenção programada”, “modificação de versão do aplicativo”, “previsão de retorno”, etc..
+
+É importante observar que a estrutura da resposta da consulta de status do serviço pode variar slightly entre as diferentes versões do Manual de Orientação ao Contribuinte - MOC.
+
+Em caso de processamento com sucesso da consulta de cadastro de um contribuinte, a SEFAZ retornará um arquivo XML contendo informações sobre a situação cadastral atual do contribuinte no cadastro de contribuintes do ICMS. O leiaute da resposta da consulta de cadastro é definido no Manual de Orientação ao Contribuinte - MOC.
+
+A estrutura da resposta da consulta de cadastro com sucesso pode conter os seguintes elementos:
+
+*   **GR01 retConsCad:** TAG raiz da Resposta da Consulta ao Cadastro.
+*   **GR02 versao:** Versão do leiaute.
+*   **GR03 infCons:** Dados da consulta.
+*   **GR04 verAplic:** Versão do Aplicativo que processou a consulta.
+*   **GR05 cStat:** Código do status da resposta.
+    *   **111 - Consulta cadastro com uma ocorrência:** Indica que a consulta retornou apenas um resultado.
+    *   **112 - Consulta cadastro com mais de uma ocorrência:** Indica que a consulta retornou mais de um resultado, por exemplo, quando o contribuinte possui diversos estabelecimentos e inscrição estadual única.
+*   **GR06 xMotivo:** Descrição literal do status da resposta.
+*   **GR06a UF:** Sigla da UF consultada.
+*   **GR06b IE:** Inscrição estadual consultada.
+*   **GR06c CNPJ:** CNPJ consultado.
+*   **GR06d CPF:** CPF consultado.
+*   **GR06e dhCons:** Data e hora de processamento da consulta. Formato = AAAA-MM-DDTHH:MM:SS
+*   **GR06f cUF:** Código da UF que atendeu a solicitação.
+*   **GR07 infCad:** Grupo com os dados da situação cadastral. Este grupo só estará presente se a consulta for realizada com sucesso (cStat=111) e pode ter múltiplas ocorrências.
+
+Dentro do grupo **GR07 infCad**, podem estar presentes as seguintes informações sobre o contribuinte:
+
+*   **GR08 IE:** Inscrição estadual do contribuinte.
+*   **GR09 CNPJ:** CNPJ do contribuinte.
+*   **GR10 CPF:** CPF do contribuinte, caso seja uma pessoa física com IE.
+*   **GR11 UF:** Sigla da UF de localização do contribuinte.
+*   **GR12 cSit:** Situação do contribuinte: 0 - não habilitado; 1 - habilitado.
+*   **GR12a indCredNFe:** Indicador de contribuinte credenciado a emitir NF-e.
+    *   0=Não credenciado para emissão da NF-e;
+    *   1=Credenciado;
+    *   2=Credenciado com obrigatoriedade para todas as operações;
+    *   3=Credenciado com obrigatoriedade parcial;
+    *   4=a SEFAZ não fornece a informação.
+*   **GR12b indCredCTe:** Indicador de contribuinte credenciado a emitir CT-e.
+    *   0=Não credenciado para emissão da CT-e;
+    *   1=Credenciado;
+    *   2=Credenciado com obrigatoriedade para todas as operações;
+    *   3=Credenciado com obrigatoriedade parcial;
+    *   4=a SEFAZ não fornece a informação.
+*   **GR13 xNome:** Razão Social ou nome do Contribuinte.
+*   **GR13a xFant:** Nome Fantasia.
+*   **GR14 xRegApur:** Regime de Apuração do ICMS do Contribuinte.
+*   **GR15 CNAE:** CNAE principal do contribuinte.
+*   **GR16 dIniAtiv:** Data de Início da Atividade do Contribuinte.
+*   **GR17 dUltSit:** Data da última modificação da situação cadastral do contribuinte.
+*   **GR18 dBaixa:** Data de ocorrência da baixa do contribuinte.
+*   **GR20 IEUnica:** IE única, este campo será informado quando o contribuinte possuir IE única.
+*   **GR21 IEAtual:** IE atual (em caso de IE antiga consultada).
+*   **GR22 ender:** Grupo com informações sobre o endereço do contribuinte.
+
+É importante observar que a estrutura da resposta da consulta de cadastro pode variar entre as diferentes versões do Manual de Orientação ao Contribuinte - MOC. Consulte a documentação oficial para obter informações mais detalhadas sobre a estrutura da resposta. 
 
 Em caso de erro no processamento da solicitação da NF-e pela SEFAZ, o Web Service retornará uma mensagem de resposta SOAP contendo um código de erro (cStat) e uma descrição textual do erro (xMotivo). As fontes fornecem uma tabela detalhada com os códigos de erro e suas descrições, listados a seguir:
 
@@ -298,8 +541,6 @@ Em caso de erro no processamento da solicitação da NF-e pela SEFAZ, o Web Serv
 * **109:** Serviço Paralisado sem Previsão 
 
 É fundamental que o aplicativo do contribuinte seja capaz de interpretar esses códigos de erro e tomar as ações necessárias, como exibir mensagens informativas ao usuário, corrigir as informações da NF-e e reenviar a solicitação. As descrições textuais (xMotivo) fornecem informações mais detalhadas sobre a causa do erro, auxiliando na identificação e correção do problema.
-
-
 
 
 

@@ -23,20 +23,7 @@ Steps
 **Gerar documentação:**
 
     mvn javadoc:javadoc
-
-
-**Explicação dos Passos**
-
-    Gerar o Maven Wrapper:
-        O Maven Wrapper (mvn wrapper:wrapper) é utilizado para garantir que todos os desenvolvedores do projeto estejam utilizando a mesma versão do Maven, facilitando a consistência do ambiente de desenvolvimento.
-
-    Limpar e empacotar o projeto:
-        O comando mvn clean package limpa o diretório de compilação e empacota o projeto em um arquivo JAR ou WAR, dependendo da configuração do seu projeto.
-
-    Limpar e instalar o projeto localmente:
-        O comando mvn clean install executa uma limpeza e instala o artefato do projeto no repositório local do Maven, permitindo que outros projetos locais dependam desse artefato.
-
-      
+  
 
 ## Requisitos ##
 

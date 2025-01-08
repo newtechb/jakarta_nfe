@@ -3,9 +3,9 @@ package org.newtechb.jakarta.services;
 import jakarta.jws.WebService;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.newtechb.jakarta.wsdl.NfeDadosMsg;
-import org.newtechb.jakarta.wsdl.NfeDadosMsgZip;
-import org.newtechb.jakarta.wsdl.NfeResultMsg;
+import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsg;
+import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsgZip;
+import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeResultMsg;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 
@@ -25,7 +25,11 @@ import org.w3c.dom.Document;
  * @see NfeDadosMsgZip
  * @see NfeResultMsg
  */
-@WebService(endpointInterface = "org.newtechb.jakarta.services.NFeAutorizacaoService")
+@WebService(
+    endpointInterface = "org.newtechb.jakarta.wsdl.NFeAutorizacaoService",
+    targetNamespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4",
+    serviceName = "NFeAutorizacaoService"
+)
 public class NFeAutorizacaoServiceImpl implements NFeAutorizacaoService {
 
     /**

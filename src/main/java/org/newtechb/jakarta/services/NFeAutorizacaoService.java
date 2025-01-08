@@ -2,9 +2,10 @@ package org.newtechb.jakarta.services;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
-import org.newtechb.jakarta.wsdl.NfeDadosMsg;
-import org.newtechb.jakarta.wsdl.NfeDadosMsgZip;
-import org.newtechb.jakarta.wsdl.NfeResultMsg;
+import jakarta.jws.soap.SOAPBinding;
+import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsg;
+import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsgZip;
+import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeResultMsg;
 
 /**
  * Interface para o serviço web de autorização de NF-e. Esta interface define os
@@ -34,7 +35,8 @@ import org.newtechb.jakarta.wsdl.NfeResultMsg;
  * @see NfeDadosMsgZip
  * @see NfeResultMsg
  */
-@WebService
+@WebService(targetNamespace = "http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public interface NFeAutorizacaoService {
 
     /**

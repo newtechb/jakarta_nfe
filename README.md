@@ -286,6 +286,55 @@ Em caso de processamento com sucesso do cancelamento da NF-e, a SEFAZ retornará
 
 Em caso de processamento com sucesso da inutilização de uma faixa de numeração de NF-e, a SEFAZ retornará um **Protocolo de Inutilização**, que é um arquivo XML contendo informações importantes sobre a inutilização. O leiaute do Protocolo de Inutilização é definido no Manual de Orientação ao Contribuinte - MOC e é composto pelas seguintes informações:
 
+```xml
+<retInutNFe versao="4.00" xmlns="http://www.portal.fazenda.gov.br/nfe">
+  <infInut Id="ID12345678901234567890123456789012345678901234">
+    <tpAmb>1</tpAmb>
+    <verAplic>SVRS202108161010</verAplic>
+    <cStat>102</cStat>
+    <xMotivo>Inutilização de número homologado</xMotivo>
+    <cUF>35</cUF>
+    <ano>2023</ano>
+    <CNPJ>12345678901234</CNPJ>
+    <mod>55</mod>
+    <serie>0</serie>
+    <nNFIni>1</nNFIni>
+    <nNFFin>10</nNFFin>
+    <dhRecbto>2023-04-20T12:00:00-03:00</dhRecbto>
+    <nProt>1234567890123456</nProt>
+  </infInut>
+</retInutNFe>
+
+```
+
+**Explicação dos campos:**
+
+*   **retInutNFe:** *Tag* raiz da resposta do pedido de inutilização.
+    *   **versao:** Versão do leiaute da mensagem de retorno (4.00 neste exemplo).
+*   **infInut:** Dados da resposta da inutilização.
+    *   **Id:** Identificador da *tag* a ser assinada, contendo o literal "ID" seguido do número do protocolo.
+    *   **tpAmb:** Identificação do ambiente.
+        *   **1:** Produção.
+    *   **verAplic:** Versão do aplicativo da SEFAZ que processou a inutilização.
+    *   **cStat:** Código do status da resposta.
+        *   **102:** Inutilização de número homologado.
+    *   **xMotivo:** Descrição literal do status da resposta.
+    *   **cUF:** Código da UF que atendeu a solicitação de inutilização.
+    *   **ano:** Ano da inutilização.
+    *   **CNPJ:** CNPJ do emitente da NF-e.
+    *   **mod:** Modelo da NF-e (55 para NF-e, 65 para NFC-e).
+    *   **serie:** Série da NF-e.
+    *   **nNFIni:** Número da primeira NF-e da faixa a ser inutilizada.
+    *   **nNFFin:** Número da última NF-e da faixa a ser inutilizada.
+    *   **dhRecbto:** Data e hora de processamento da inutilização.
+    *   **nProt:** Número do Protocolo de Inutilização.
+
+**Observações:**
+
+*   A estrutura do XML de retorno pode variar de acordo com a versão do leiaute utilizada pela SEFAZ.
+*   A mensagem de retorno é assinada digitalmente pela SEFAZ, garantindo a autenticidade e integridade das informações.
+*   É importante consultar a documentação oficial do Manual de Orientação ao Contribuinte (MOC) para obter a descrição completa dos campos e as regras de validação aplicáveis à versão do leiaute em uso. 
+
 * **DR01 retInutNFe:** TAG raiz da Resposta do Pedido de Inutilização.
 * **DR02 versao:** Versão do leiaute.
 * **DR03 infInut:** Dados da resposta - TAG a ser assinada.
@@ -308,6 +357,54 @@ Em caso de processamento com sucesso da inutilização de uma faixa de numeraç�
 **O Protocolo de Inutilização é um documento importante, pois comprova que a faixa de numeração de NF-e foi inutilizada junto à SEFAZ.** Este protocolo deve ser armazenado pelo emitente da NF-e para fins de comprovação e auditoria.
 
 Em caso de processamento com sucesso da consulta de status da NF-e, a SEFAZ retornará um arquivo XML contendo informações sobre a situação atual da NF-e na base de dados. O leiaute da resposta da consulta de status é definido no Manual de Orientação ao Contribuinte - MOC e varia de acordo com a versão. 
+
+```xml
+<retConsSitNFe versao="4.00" xmlns="http://www.portal.fazenda.gov.br/nfe">
+  <tpAmb>1</tpAmb>
+  <verAplic>SVRS202108161010</verAplic>
+  <cStat>100</cStat>
+  <xMotivo>Autorizado o uso da NF-e</xMotivo>
+  <cUF>35</cUF>
+  <chNFe>35230412345678901234567890123456789012345678</chNFe>
+  <dhRecbto>2023-04-20T13:00:00-03:00</dhRecbto>
+  <protNFe versao="4.00">
+    <infProt Id="ID35230412345678901234567890123456789012345678">
+      <tpAmb>1</tpAmb>
+      <verAplic>SVRS202108161010</verAplic>
+      <chNFe>35230412345678901234567890123456789012345678</chNFe>
+      <dhRecbto>2023-04-20T13:00:00-03:00</dhRecbto>
+      <nProt>35230412345678901234567890123456789012345678</nProt>
+      <digVal>XYZ/abcdefghijklmnopqrstuvwxWZ=</digVal>
+      <cStat>100</cStat>
+      <xMotivo>Autorizado o uso da NF-e</xMotivo>
+    </infProt>
+  </protNFe>
+</retConsSitNFe>
+```
+
+**Explicação dos campos:**
+
+* **retConsSitNFe:** *Tag* raiz da resposta da consulta de situação da NF-e.
+    * **versao:** Versão do leiaute da mensagem de retorno (4.00 neste exemplo).
+* **tpAmb:** Identificação do ambiente.
+    * **1:** Produção.
+* **verAplic:** Versão do aplicativo da SEFAZ que processou a consulta.
+* **cStat:** Código do status da resposta.
+    * **100:** Autorizado o uso da NF-e.
+* **xMotivo:** Descrição literal do status da resposta.
+* **cUF:** Código da UF que atendeu a solicitação.
+* **chNFe:** Chave de acesso da NF-e consultada.
+* **dhRecbto:** Data e hora de processamento da consulta.
+* **protNFe:** Protocolo de autorização ou denegação de uso da NF-e. (Informações sobre a estrutura do XML `protNFe` foram fornecidas em uma resposta anterior da conversa.)
+
+**Observações:**
+
+* A estrutura do XML de retorno pode variar de acordo com a versão do leiaute utilizada pela SEFAZ.
+* A mensagem de retorno é assinada digitalmente pela SEFAZ, garantindo a autenticidade e integridade das informações.
+* É importante consultar a documentação oficial do Manual de Orientação ao Contribuinte (MOC) para obter a descrição completa dos campos e as regras de validação aplicáveis à versão do leiaute em uso.
+* No caso de localização da NF-e, o retorno deve conter o código de status (`cStat`) com os valores "100 - Autorizado o Uso", "101 - Cancelamento de NF-e Homologado" ou "110 - Uso Denegado".
+* Na resposta do *Web Service* de Consulta de Situação da Nota Fiscal, devem ser retornados unicamente os eventos de Cancelamento, Carta de Correção e EPEC. 
+
 
 A estrutura da resposta pode conter os seguintes elementos, entre outros:
 
@@ -332,6 +429,44 @@ O elemento **procEventoNFe** será retornado apenas se houver eventos vinculados
 
 Em caso de processamento com sucesso da consulta de status do serviço, a SEFAZ retornará um arquivo XML contendo informações sobre a situação atual do serviço de autorização de NF-e. O leiaute da resposta da consulta de status do serviço é definido no Manual de Orientação ao Contribuinte - MOC e é composto pelas seguintes informações:
 
+```xml
+<retConsStatServ versao="4.00" xmlns="http://www.portal.fazenda.gov.br/nfe">
+  <tpAmb>1</tpAmb>
+  <verAplic>SVRS202108161010</verAplic>
+  <cStat>107</cStat>
+  <xMotivo>Serviço em Operação</xMotivo>
+  <cUF>35</cUF>
+  <dhRecbto>2023-04-20T14:00:00-03:00</dhRecbto>
+  <tMed>1</tMed>
+  <dhRetorno>2023-04-20T14:02:00</dhRetorno> 
+  <xObs>Manutenção programada</xObs>
+</retConsStatServ>
+```
+
+**Explicação dos campos:**
+
+*   **retConsStatServ:** *Tag* raiz da resposta da consulta de status do serviço.
+    *   **versao:** Versão do leiaute da mensagem de retorno (4.00 neste exemplo).
+*   **tpAmb:** Identificação do ambiente.
+    *   **1:** Produção.
+*   **verAplic:** Versão do aplicativo da SEFAZ que processou a consulta.
+*   **cStat:** Código do status da resposta.
+    *   **107:** Serviço em Operação.
+*   **xMotivo:** Descrição literal do status da resposta.
+*   **cUF:** Código da UF que atendeu a solicitação.
+*   **dhRecbto:** Data e hora de processamento da consulta.
+*   **tMed:** Tempo médio de resposta do serviço (em segundos) dos últimos 5 minutos.
+*   **dhRetorno:** Data e hora previstas para o retorno do Web Service, no formato AAA-MM-DDTHH:MM:SS.
+*   **xObs:** Informações adicionais para o contribuinte.
+
+**Observações:**
+
+*   A estrutura do XML de retorno pode variar de acordo com a versão do leiaute utilizada pela SEFAZ.
+*   A mensagem de retorno é assinada digitalmente pela SEFAZ, garantindo a autenticidade e integridade das informações.
+*   É importante consultar a documentação oficial do Manual de Orientação ao Contribuinte (MOC) para obter a descrição completa dos campos e as regras de validação aplicáveis à versão do leiaute em uso.
+
+O processamento do pedido de consulta de status do serviço pode resultar em uma mensagem de erro ou retornar a situação atual do servidor de processamento, com os códigos de situação **"107 - Serviço em Operação", "108 - Serviço Paralisado Temporariamente" e "109 - Serviço Paralisado sem Previsão"**. A critério da UF, o campo "xObs" pode ser utilizado para fornecer maiores informações ao contribuinte, como por exemplo: "manutenção programada", "modificação de versão do aplicativo", "previsão de retorno", etc.
+
 * **FR01 retConsStatServ:** TAG raiz da Resposta da Consulta de Status do Serviço.
 * **FR02 versao:** Versão do leiaute.
 * **FR03 tpAmb:** Identificação do Ambiente: 1=Produção/2=Homologação.
@@ -352,6 +487,109 @@ A critério da UF, o campo **xObs** pode ser utilizado para fornecer maiores inf
 É importante observar que a estrutura da resposta da consulta de status do serviço pode variar slightly entre as diferentes versões do Manual de Orientação ao Contribuinte - MOC.
 
 Em caso de processamento com sucesso da consulta de cadastro de um contribuinte, a SEFAZ retornará um arquivo XML contendo informações sobre a situação cadastral atual do contribuinte no cadastro de contribuintes do ICMS. O leiaute da resposta da consulta de cadastro é definido no Manual de Orientação ao Contribuinte - MOC.
+
+```xml
+<retConsCad versao="2.00" xmlns="http://www.portal.fazenda.gov.br/nfe">
+  <infCons>
+    <verAplic>SVRS202108161010</verAplic>
+    <cStat>111</cStat>
+    <xMotivo>Consulta cadastro com uma ocorrência</xMotivo>
+    <UF>35</UF>
+    <CNPJ>12345678901234</CNPJ>
+    <dhCons>2023-04-20T15:00:00-03:00</dhCons>
+    <cUF>35</cUF>
+    <infCad>
+      <IE>1234567890123</IE>
+      <CNPJ>12345678901234</CNPJ>
+      <UF>SP</UF>
+      <cSit>1</cSit>
+      <xNome>RAZAO SOCIAL DO CONTRIBUINTE</xNome>
+      <xFant>NOME FANTASIA</xFant>
+      <xRegApur>SIMPLES NACIONAL</xRegApur>
+      <CNAE>1234567</CNAE>
+      <dIniAtiv>2020-01-01</dIniAtiv>
+      <dUltSit>2023-04-20</dUltSit>
+      <ender>
+        <xLgr>RUA DO CONTRIBUINTE</xLgr>
+        <nro>123</nro>
+        <xCpl>SALA 456</xCpl>
+        <xBairro>BAIRRO DO CONTRIBUINTE</xBairro>
+        <cMun>3512345</cMun>
+        <xMun>CIDADE DO CONTRIBUINTE</xMun>
+        <CEP>12345678</CEP>
+        <cPais>1058</cPais>
+        <xPais>BRASIL</xPais>
+        <fone>123456789</fone>
+      </ender>
+      <IEUnica>1234567890123</IEUnica>
+    </infCad>
+  </infCons>
+</retConsCad>
+
+```
+
+**Explicação dos campos:**
+
+*   **retConsCad:** *Tag* raiz da resposta da consulta de cadastro.
+    *   **versao:** Versão do leiaute da mensagem (2.00 neste exemplo).
+*   **infCons:** Grupo com as informações da consulta.
+    *   **verAplic:** Versão do aplicativo que processou a consulta.
+    *   **cStat:** Código do status da resposta.
+        *   **111:** Consulta cadastro com uma ocorrência.
+        *   **112:** Consulta cadastro com mais de uma ocorrência (ex: mais de um estabelecimento para o argumento de pesquisa).
+    *   **xMotivo:** Descrição do *status* da resposta.
+    *   **UF:** Sigla da UF consultada.
+    *   **CNPJ:** CNPJ consultado.
+    *   **dhCons:** Data e hora de processamento da consulta.
+    *   **cUF:** Código da UF que atendeu à solicitação.
+    *   **infCad:** Grupo com os dados da situação cadastral.
+        *   **IE:** Inscrição estadual do contribuinte.
+        *   **CNPJ:** CNPJ do contribuinte.
+        *   **UF:** Sigla da UF de localização do contribuinte.
+        *   **cSit:** Situação do contribuinte:
+            *   **0:** Não habilitado.
+            *   **1:** Habilitado.
+        *   **xNome:** Razão Social ou Nome do Contribuinte.
+        *   **xFant:** Nome Fantasia.
+        *   **xRegApur:** Regime de Apuração do ICMS do Contribuinte.
+        *   **CNAE:** CNAE principal do contribuinte.
+        *   **dIniAtiv:** Data de Início da Atividade do Contribuinte.
+        *   **dUltSit:** Data da última modificação da situação cadastral.
+        *   **ender:** Grupo de informações do endereço.
+            *   **xLgr:** Logradouro.
+            *   **nro:** Número.
+            *   **xCpl:** Complemento.
+            *   **xBairro:** Bairro.
+            *   **cMun:** Código do município, conforme tabela do IBGE.
+            *   **xMun:** Nome do município.
+            *   **CEP:** CEP.
+            *   **cPais:** Código do país, conforme tabela do BACEN.
+            *   **xPais:** Nome do país.
+            *   **fone:** Telefone.
+        *   **IEUnica:** Inscrição estadual única, caso o contribuinte possua.
+
+**Observações:**
+
+*   A estrutura do XML de retorno pode variar de acordo com a versão do leiaute utilizada pela SEFAZ.
+*   A mensagem de retorno é assinada digitalmente pela SEFAZ.
+*   É importante consultar a documentação oficial do Manual de Orientação ao Contribuinte (MOC) para obter a descrição completa dos campos e as regras de validação aplicáveis à versão do leiaute em uso.
+*   Na consulta de cadastro, o *Web Service* valida o argumento de pesquisa informado (CNPJ ou CPF ou IE) e retorna a situação cadastral atual do contribuinte no cadastro de contribuintes do ICMS.
+*   As regras de validação, como a verificação de dígitos de controle e a validação da inscrição estadual, são detalhadas no documento MOC - Anexo I - Leiaute e Regras de Validação da NF-e e da NFC-e.
+
+Existem diversas regras de validação para a consulta de cadastro, como:
+
+*   Verificar se o CNPJ solicitante é emissor de NF-e.
+*   Verificar o dígito de controle do CNPJ ou se o campo está preenchido com zeros.
+*   Verificar se o CNPJ consultado está cadastrado como contribuinte na UF.
+*   Verificar o dígito de controle da IE ou se o campo está preenchido com zeros.
+*   Verificar se a IE consultada está cadastrada como contribuinte na UF.
+*   Verificar se a UF permite consulta por CPF.
+*   Verificar o dígito de controle do CPF ou se o campo está preenchido com zeros.
+*   Verificar se o CPF consultado está cadastrado como contribuinte na UF.
+*   Verificar se o ambiente da NF-e é o mesmo do *Web Service*.
+*   Verificar se o código da UF consultada é o mesmo da UF do *Web Service*.
+
+Em caso de rejeição, o código e a mensagem de erro serão retornados no XML, de acordo com a tabela de códigos de erros do Manual de Integração do Contribuinte.
 
 A estrutura da resposta da consulta de cadastro com sucesso pode conter os seguintes elementos:
 
@@ -404,6 +642,44 @@ Dentro do grupo **GR07 infCad**, podem estar presentes as seguintes informaçõe
 É importante observar que a estrutura da resposta da consulta de cadastro pode variar entre as diferentes versões do Manual de Orientação ao Contribuinte - MOC. Consulte a documentação oficial para obter informações mais detalhadas sobre a estrutura da resposta. 
 
 Em caso de erro no processamento da solicitação da NF-e pela SEFAZ, o Web Service retornará uma mensagem de resposta SOAP contendo um código de erro (cStat) e uma descrição textual do erro (xMotivo). As fontes fornecem uma tabela detalhada com os códigos de erro e suas descrições, listados a seguir:
+
+```xml
+<retConsCad versao="2.00" xmlns="http://www.portal.fazenda.gov.br/nfe">
+  <infCons>
+    <verAplic>SVRS202108161010</verAplic>
+    <cStat>258</cStat>
+    <xMotivo>Rejeição: CNPJ da consulta inválido</xMotivo>
+    <UF>35</UF>
+    <CNPJ>12345678901234</CNPJ>
+    <dhCons>2023-04-20T15:00:00-03:00</dhCons>
+    <cUF>35</cUF>
+  </infCons>
+</retConsCad>
+```
+
+**Explicação dos campos:**
+
+*   **retConsCad:** *Tag* raiz da resposta da consulta de cadastro.
+    *   **versao:** Versão do leiaute da mensagem (2.00 neste exemplo).
+*   **infCons:** Grupo com as informações da consulta.
+    *   **verAplic:** Versão do aplicativo que processou a consulta.
+    *   **cStat:** Código do status da resposta.
+        *   **258:** Rejeição: CNPJ da consulta inválido.
+    *   **xMotivo:** Descrição do *status* da resposta.
+    *   **UF:** Sigla da UF consultada.
+    *   **CNPJ:** CNPJ consultado.
+    *   **dhCons:** Data e hora de processamento da consulta.
+    *   **cUF:** Código da UF que atendeu à solicitação.
+
+Observe que, neste caso de erro, **o grupo `infCad` com os dados do cadastro não está presente** porque a consulta não foi processada com sucesso.
+    
+**Observações:**
+
+*   A estrutura do XML de erro pode variar de acordo com a versão do leiaute e o Web Service utilizado.
+*   A mensagem de erro é assinada digitalmente pela SEFAZ.
+*   Para interpretar o código de erro (`cStat`) e a descrição do erro (`xMotivo`), consulte a documentação oficial do Manual de Orientação ao Contribuinte (MOC) e o Manual de Integração do Contribuinte.
+
+Lembre-se que as regras de validação e os códigos de erro podem ser diferentes entre as versões dos leiautes e Web Services. Consulte sempre a documentação oficial para obter informações precisas.
 
 **Códigos de Rejeição (cStat):**
 

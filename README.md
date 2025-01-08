@@ -24,8 +24,73 @@ Steps
 
     mvn javadoc:javadoc
   
+### Requisitos de Software ###
 
-### Requisitos ###
+Para um projeto emissor de NF-e utilizando Jakarta EE e Jakarta XML Web Services para a comunicação com a SEFAZ, diversos padrões e requisitos podem ser considerados **até a camada de serviços**, visando garantir a segurança, a conformidade legal e a eficiência do sistema. 
+
+**1. Camada de Negócio:**
+
+* Implementação da lógica de negócio relacionada à emissão de NF-e, incluindo:
+    * Validação das regras de negócio específicas da NF-e, como:
+        * Campos obrigatórios.
+        * Formatos de dados.
+        * Regras de cálculo de impostos.
+    * Cálculo dos impostos e valores da NF-e.
+    * Geração do XML da NF-e, de acordo com o schema oficial da SEFAZ.
+    * Assinatura digital do XML da NF-e utilizando o certificado digital da empresa, via JCA.
+    * Comunicação com a camada de serviços para envio da NF-e para a SEFAZ.
+    * Processamento das respostas da SEFAZ, como autorização, rejeição ou erros.
+    * Geração do DANFE (Documento Auxiliar da Nota Fiscal Eletrônica) em formato PDF.
+    * Armazenamento das informações da NF-e e dos eventos relacionados (autorização, cancelamento, etc.).
+
+*   **Tecnologias:**
+    *   **EJB (Enterprise JavaBeans):** Para encapsular a lógica de negócio em componentes reutilizáveis e gerenciados pelo servidor de aplicação.
+        *   **Stateless Session Beans:** Para lógica de negócio sem estado, ideal para operações como validação e cálculo.
+        *   **Message Driven Beans:** Para processamento assíncrono de mensagens, útil para integrar com sistemas externos ou gerenciar filas de processamento.
+    *   **CDI (Contexts and Dependency Injection):** Para gerenciar as dependências entre os componentes da aplicação, facilitando a testabilidade e a reutilização.
+    *   **JPA (Jakarta Persistence API):** Para persistir as informações da NF-e em um banco de dados relacional, abstraindo o acesso aos dados.
+    *   **JCA (Java Cryptography Architecture):** Para realizar a assinatura digital do XML da NF-e utilizando o certificado digital da empresa.
+    *   **Bibliotecas de geração de PDF:** Como iText ou Apache PDFBox, para gerar o DANFE em formato PDF.
+
+**2. Camada de Serviços:**
+
+* **Jakarta XML Web Services** será a tecnologia central para esta camada, responsável pela comunicação com os Web Services da SEFAZ.
+* Implementação de serviços para cada operação da NF-e, como:
+    * `EmitirNFe`: Envia o XML da NF-e para a SEFAZ e processa a resposta.
+    * `CancelarNFe`: Envia a solicitação de cancelamento e processa a resposta.
+    * `InutilizarNumeracao`: Envia a solicitação de inutilização e processa a resposta.
+    * `ConsultarStatusNFe`: Consulta a situação da NF-e na SEFAZ.
+    * `ConsultarCadastroContribuinte`: Consulta dados cadastrais na SEFAZ.
+
+*   **Tecnologias:**
+    *   **Jakarta XML Web Services (JAX-WS):** Para criar e consumir os Web Services para comunicação com a SEFAZ.
+        *   **@WebService:** Anotação para definir a classe como um Web Service.
+        *   **@WebMethod:** Anotação para definir os métodos expostos como operações do Web Service.
+    *   **JAXB (Jakarta XML Binding):** Para mapear as classes Java para XML e vice-versa, facilitando a comunicação com os Web Services da SEFAZ.
+
+**Padrões e requisitos para todas as camadas:**
+
+* **Segurança:**
+    * Autenticação e autorização para controlar o acesso ao sistema.
+    * Comunicação segura HTTPS com a SEFAZ.
+    * Armazenamento seguro das chaves e certificados digitais.
+    * Implementação de mecanismos para prevenir ataques e proteger dados sensíveis.
+* **Gestão de Erros:**
+    * Tratamento e registro de erros para facilitar a identificação e resolução de problemas.
+    * Mensagens de erro claras e informativas para o usuário.
+* **Logging:**
+    * Registro de eventos importantes do sistema para auditoria e análise.
+* **Testes:**
+    * Criação de testes unitários e de integração para garantir a qualidade do código e a funcionalidade do sistema.
+
+**Observações importantes:**
+
+* Esta estrutura até a camada de serviços visa preparar o sistema para a comunicação com a SEFAZ. A implementação da camada de acesso a dados e a integração com outras partes do sistema dependerá de requisitos específicos.
+* A legislação e as especificações da NF-e estão sujeitas a alterações, portanto, mantenha-se atualizado.
+* Lembre-se que a escolha das tecnologias e a forma de utilizá-las dependerá da arquitetura e dos requisitos específicos do seu projeto.
+
+
+### Requisitos SEFAZ ###
 
 **Funcionalidades Essenciais:**
     

@@ -1,11 +1,11 @@
-package org.newtechb.jakarta.services;
+package org.newtechb.nfe.wsdl.NFeAutorizacao;
 
 import jakarta.jws.WebService;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsg;
-import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsgZip;
-import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeResultMsg;
+import org.newtechb.nfe.wsdl.NFeAutorizacao.NfeDadosMsg;
+import org.newtechb.nfe.wsdl.NFeAutorizacao.NfeDadosMsgZip;
+import org.newtechb.nfe.wsdl.NFeAutorizacao.NfeResultMsg;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 

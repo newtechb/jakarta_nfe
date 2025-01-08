@@ -1,4 +1,4 @@
-package org.newtechb.jakarta.services;
+package org.newtechb.nfe.wsdl.NFeConsultaProtocolo;
 
 import jakarta.xml.ws.AsyncHandler;
 import jakarta.xml.ws.Response;

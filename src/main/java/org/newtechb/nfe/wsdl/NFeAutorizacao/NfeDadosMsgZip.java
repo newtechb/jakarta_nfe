@@ -1,4 +1,4 @@
-package org.newtechb.jakarta.wsdl.NFeAutorizacao;
+package org.newtechb.nfe.wsdl.NFeAutorizacao;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;

@@ -1,11 +1,11 @@
-package org.newtechb.jakarta.services;
+package org.newtechb.nfe.wsdl.NFeAutorizacao;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;
-import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsg;
-import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeDadosMsgZip;
-import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeResultMsg;
+import org.newtechb.nfe.wsdl.NFeAutorizacao.NfeDadosMsg;
+import org.newtechb.nfe.wsdl.NFeAutorizacao.NfeDadosMsgZip;
+import org.newtechb.nfe.wsdl.NFeAutorizacao.NfeResultMsg;
 
 /**
  * Interface para o serviço web de autorização de NF-e. Esta interface define os

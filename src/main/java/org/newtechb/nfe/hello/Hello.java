@@ -1,4 +1,4 @@
-package org.newtechb.jakarta.hello;
+package org.newtechb.nfe.hello;
 
 /**
  *

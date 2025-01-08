@@ -1,18 +1,17 @@
-package org.newtechb.jakarta.wsdl.NFeAutorizacao;
+package org.newtechb.nfe.wsdl.NFeAutorizacao;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-//import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlAnyElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.w3c.dom.Element;
 
 /**
- * Classe que representa a mensagem de dados da NF-e.
+ * Classe que representa a mensagem de resultado da NF-e.
  * <p>
- * Esta classe é usada para encapsular os dados de uma NF-e em uma estrutura
- * XML. Utiliza as anotações de JAXB para definir como os dados são serializados
- * e desserializados para XML.
+ * Esta classe é usada para encapsular os resultados de uma operação de NF-e em
+ * uma estrutura XML. Utiliza as anotações de JAXB para definir como os dados
+ * são serializados e desserializados para XML.
  * </p>
  *
  * <p>
@@ -27,9 +26,9 @@ import org.w3c.dom.Element;
  *
  * @see Element
  */
-@XmlRootElement(name = "nfeDadosMsg")
+@XmlRootElement(name = "nfeResultMsg")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NfeDadosMsg {
+public class NfeResultMsg {
 
     /**
      * Elemento XML adicional que pode ser qualquer elemento XML.
@@ -46,7 +45,8 @@ public class NfeDadosMsg {
     /**
      * Obtém o elemento extra.
      *
-     * @return {@link Element} O elemento extra contido nesta mensagem de dados.
+     * @return {@link Element} O elemento extra contido nesta mensagem de
+     * resultado.
      */
     public Element getExtraElement() {
         return extraElement;
@@ -56,7 +56,7 @@ public class NfeDadosMsg {
      * Define o elemento extra.
      *
      * @param extraElement O elemento extra a ser definido nesta mensagem de
-     * dados.
+     * resultado.
      */
     public void setExtraElement(Element extraElement) {
         this.extraElement = extraElement;

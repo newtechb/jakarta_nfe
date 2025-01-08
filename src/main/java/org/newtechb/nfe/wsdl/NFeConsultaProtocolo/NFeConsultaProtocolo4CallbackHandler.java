@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.newtechb.jakarta.wsdl.NFeConsultaProtocolo;
+package org.newtechb.nfe.wsdl.NFeConsultaProtocolo;
 
 
-import org.newtechb.jakarta.wsdl.NFeAutorizacao.NfeResultMsg;
+import org.newtechb.nfe.wsdl.NFeAutorizacao.NfeResultMsg;
 import jakarta.xml.ws.AsyncHandler;
 import jakarta.xml.ws.Response;
 

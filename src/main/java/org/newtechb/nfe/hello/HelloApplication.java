@@ -1,4 +1,4 @@
-package org.newtechb.jakarta.hello;
+package org.newtechb.nfe.hello;
 
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.ApplicationPath;

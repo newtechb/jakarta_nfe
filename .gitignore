@@ -6,3 +6,5 @@ target/
 /src/test/java/br/com/swconsultoria/nfe/teste/
 .mvn/wrapper/maven-wrapper.jar
 java_nfe/
+src/main/java/org/newtechb/nfe/schemas/
+temp_xsd/

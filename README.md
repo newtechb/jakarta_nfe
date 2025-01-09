@@ -12,6 +12,11 @@ Steps
 
     mvn wrapper:wrapper
 
+**Teste do projeto:**
+
+    mvn test
+
+
 **Limpar e empacotar o projeto:**
 
     mvn clean package

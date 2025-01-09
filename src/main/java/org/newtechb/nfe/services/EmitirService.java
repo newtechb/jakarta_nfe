@@ -4,15 +4,27 @@
  */
 package org.newtechb.nfe.services;
 
+import org.newtechb.nfe.utils.LoteNFe;
+import org.newtechb.nfe.NFe;
+import org.newtechb.nfe.utils.BancoDeDados;
+
 /**
  *
  * @author bajinho
  */
 public class EmitirService {
+
+    private BancoDeDados bancoDeDados;
+
+    // Constructor to inject the mock
+    public EmitirService(BancoDeDados bancoDeDados) {
+        this.bancoDeDados = bancoDeDados;
+    }
+
     /**
      * Para exemplificar como a estrutura XML funcionaria para um serviço
      * EmitirService, vamos considerar um cenário similar ao NfeAutorizacao,
-     * enviando um lote com apenas uma NF-e. XML de Envio (Exemplo Hipotético):
+     * enviando um lote com apenas uma NF-e.XML de Envio (Exemplo Hipotético):
      *
      * <EmitirNFe versao="4.00">
      * <tpAmb>1</tpAmb>
@@ -44,5 +56,14 @@ public class EmitirService {
      * <!-- Outros dados de retorno -->: Outros dados podem ser retornados, como
      * a data e hora de autorização, informações sobre eventos vinculados à NF-e
      * etc.
+     *
+     * @param loteNFe
      */
+    public void enviarLote(LoteNFe loteNFe) {
+        for (NFe nfe : loteNFe.getNfes()) {
+            nfe.setStatus("Autorizado o uso da NF-e");
+            nfe.setProtocolo("Protocolo12345");
+            bancoDeDados.salvar(nfe); // Ensure this method is called
+        }
+    }
 }

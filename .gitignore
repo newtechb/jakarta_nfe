@@ -8,3 +8,4 @@ target/
 java_nfe/
 src/main/java/org/newtechb/nfe/schemas/
 temp_xsd/
+/nbproject/

@@ -1,0 +1,15 @@
+  BDD - Cenário: Emissão de NF-e em ambiente de produção.
+ 
+  Dado que o usuário está autenticado no sistema
+ 
+  E que o usuário possui um lote de NF-e válido
+ 
+  Quando o usuário envia o lote de NF-e para o serviço EmitirService
+ 
+  Então o sistema deve processar o lote
+ 
+  E retornar o status "Autorizado o uso da NF-e" para cada NF-e do lote
+ 
+  E gerar um protocolo de autorização para cada NF-e
+ 
+  E armazenar os dados da NF-e e do protocolo no banco de dados.
